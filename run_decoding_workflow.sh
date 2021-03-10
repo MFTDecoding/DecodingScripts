@@ -54,19 +54,19 @@ echo "Error Jump in RDH_packetCounter :  "
 grep -r "Jump in RDH_packetCounter" $log | wc -l
 
 echo "[ERROR]"
-grep -r "[ERROR]" $log | wc -l
+grep -r "ERROR" $log | wc -l
 
 echo "[ERROR] Failed to open input file"
-grep -r "[ERROR] Failed to open input file" $log | wc -l
+grep -r "Failed to open input file" $log | wc -l
 
 echo "[ERROR] Mismatch between flagged and calculated new TF start"
-grep -r "[ERROR] Mismatch between flagged and calculated new TF start" $log | wc -l
+grep -r "Mismatch between flagged and calculated new TF start" $log | wc -l
 
 echo "[ERROR] Unknown word"
-grep -r "[ERROR] Unknown word" $log | wc -l
+grep -r "Unknown word" $log | wc -l
 
 echo "[ERROR] SEVERE" 
-grep -r "[ERROR] SEVERE" $log | wc -l
+grep -r "SEVERE" $log | wc -l
 
 STOP_TIME=$(date +"%Y %m %d %H:%M:%S")
 echo "Stop " ${STOP_TIME}
