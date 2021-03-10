@@ -35,6 +35,9 @@ echo "Creation of "${CFGFILE}" : Done! "
 echo "-----------------------------"
 cat $CFGFILE
 echo "-----------------------------"
+START_TIME=$(date +"%Y/%m/%d %H:%M:%S")
+echo "Start "${START_TIME}
+echo "Using --delay = "$DELAY_S
 echo "Run decoder RDHv6 on : "${INPUT_PATH}"/"${RAWDATA_FILENAME}".raw"
 timestamp=$(date +"%Y_%m_%d_%H_%M_%S")
 mkdir -pv ${INPUT_PATH}/log/
@@ -65,5 +68,7 @@ grep -r "[ERROR] Unknown word" $log | wc -l
 echo "[ERROR] SEVERE" 
 grep -r "[ERROR] SEVERE" $log | wc -l
 
+STOP_TIME=$(date +"%Y %m %d %H:%M:%S")
+echo "Stop " ${STOP_TIME}
 echo "Done !"
 echo "-----------------------------"
