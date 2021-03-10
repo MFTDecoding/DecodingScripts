@@ -23,7 +23,7 @@ void plot(const std::string base_file_name = "data-d0-2021_03_04__17_26_26__-204
   const std::string input_path = "/home/flp/data",
   std::string output_path = "/home/flp/plots")
 {
-  std::string input_file_name = input_path + "/" base_file_name + ".root";
+  std::string input_file_name = input_path + "/" + base_file_name + ".root";
 
   TFile *inputFile =new TFile(input_file_name.c_str());
   if ( inputFile->IsZombie() ) {
@@ -90,7 +90,7 @@ void plot(const std::string base_file_name = "data-d0-2021_03_04__17_26_26__-204
     tree->GetEvent(i);
     Int_t nd = digArr->size();
     if(nd>0) {
-      std::cout << "\r >>>>> Entry " << ientry << "/" << nentries << " Events ? " << nd << " \r"<< std::cout.flush();
+      std::cout << "\r >>>>> Entry " << i << "/" << nentries << " Events ? " << nd << " \r"<< std::cout.flush();
     }
  
     while (nd--) {
@@ -113,9 +113,10 @@ void plot(const std::string base_file_name = "data-d0-2021_03_04__17_26_26__-204
     c1[k]->cd(k);
     gStyle->SetOptStat(0);
     hplot[k]->Draw("colz PMC");
-    output_path += "/" + base_file_name
-    std::string command = "mkdir -p " + output_path
-    gSystem->Exec(command.c_str())
+    output_path += "/" + base_file_name;
+    std::string command = "mkdir -p " + output_path;
+    std::cout << command << std::endl;
+    gSystem->Exec(command.c_str());
     std::string histnamesave = output_path + "/hist_";
     histnamesave += os2;
     histnamesave += ".pdf";
