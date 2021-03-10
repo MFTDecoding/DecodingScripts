@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 #include "TROOT.h"
+#include "TSystem.h"
 #include "TFile.h"
 #include "TTree.h"
 #include "TBrowser.h"
@@ -18,10 +19,18 @@ using namespace o2::base;
 using namespace o2::detectors;
 using o2::itsmft::DigitHW;
 
-void plot(const Char_t *inFile="/local/home/mc262512/alice/output/data-d0-2021_03_04__17_26_26__-20490-3.raw.root"){
+void plot(const std::string base_file_name = "data-d0-2021_03_04__17_26_26__-20490-3", 
+  const std::string input_path = "/home/flp/data",
+  std::string output_path = "/home/flp/plots")
+{
+  std::string input_file_name = input_path + "/" base_file_name + ".root";
 
-  TFile *inputFile =new TFile(inFile);
-
+  TFile *inputFile =new TFile(input_file_name.c_str());
+  if ( inputFile->IsZombie() ) {
+		std::cout << "ERROR opening digit file " << input_file_name << " ! exit" << endl;
+		return;
+  }
+  std::cout << "digit file " << input_file_name <<" opened" << std::endl;
 
   TTree *tree=(TTree*)inputFile->Get("o2sim");
   auto nentries=tree->GetEntries();
@@ -80,7 +89,9 @@ void plot(const Char_t *inFile="/local/home/mc262512/alice/output/data-d0-2021_0
   for(int i=0;i<nentries;i++){
     tree->GetEvent(i);
     Int_t nd = digArr->size();
-    cout<<"Events? "<<nd<<endl;
+    if(nd>0) {
+      std::cout << "\r >>>>> Entry " << ientry << "/" << nentries << " Events ? " << nd << " \r"<< std::cout.flush();
+    }
  
     while (nd--) {
       const DigitHW* d2 = &(*digArr)[nd];
@@ -102,8 +113,11 @@ void plot(const Char_t *inFile="/local/home/mc262512/alice/output/data-d0-2021_0
     c1[k]->cd(k);
     gStyle->SetOptStat(0);
     hplot[k]->Draw("colz PMC");
-    std::string histnamesave = "analog/hist_";
-    histnamesave +=os2;
+    output_path += "/" + base_file_name
+    std::string command = "mkdir -p " + output_path
+    gSystem->Exec(command.c_str())
+    std::string histnamesave = output_path + "/hist_";
+    histnamesave += os2;
     histnamesave += ".pdf";
     const char *finalname =  histnamesave.c_str();
     c1[k]->SaveAs(finalname);
