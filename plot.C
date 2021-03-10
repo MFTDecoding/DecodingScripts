@@ -9,25 +9,28 @@
 #include "TRandom.h"
 #include "TCanvas.h"
 #include "TGraph.h"
+#include "TH2F.h"
+#include <iostream>
 #include <sstream>
 #include <vector>
 #include <fstream>
 #include <string>
 
-
+using namespace std;
 using namespace o2::base;
 using namespace o2::detectors;
 using o2::itsmft::DigitHW;
 
 void plot(const std::string base_file_name = "data-d0-2021_03_04__17_26_26__-20490-3", 
-  const std::string input_path = "/home/flp/data",
+  const std::string input_path = "/home/flp/data/digits",
   std::string output_path = "/home/flp/plots")
 {
+  std::cout << "---------------------------------------" << std::endl;
   std::string input_file_name = input_path + "/" + base_file_name + ".root";
 
   TFile *inputFile =new TFile(input_file_name.c_str());
   if ( inputFile->IsZombie() ) {
-		std::cout << "ERROR opening digit file " << input_file_name << " ! exit" << endl;
+		std::cout << "ERROR opening digit file " << input_file_name << " ! exit" << std::endl;
 		return;
   }
   std::cout << "digit file " << input_file_name <<" opened" << std::endl;
@@ -56,7 +59,7 @@ void plot(const std::string base_file_name = "data-d0-2021_03_04__17_26_26__-204
      Int_t disk = d->getDisk();
      Int_t zone = d->getZone();
      if(find (vecChipDec.begin(), vecChipDec.end(), chipID)==vecChipDec.end()){
-  	     os<<"h" << half<<"-d"<<disk<<"-f"<<face<<"-z"<<zone<<"-trans"<<cableHW;
+  	     os<<"h" << half<<"-d"<<disk<<"-f"<<face<<"-z"<<zone<<"-tr"<<cableHW;
 	     os1 = os.str();
 	     os.str("");
 	     os.clear();
@@ -68,6 +71,9 @@ void plot(const std::string base_file_name = "data-d0-2021_03_04__17_26_26__-204
 
   int sizeVecDec = vecChipDec.size();
   std::cout<<"How many chips? "<<sizeVecDec<<std::endl;
+  for(int ichip = 0; ichip<sizeVecDec; ichip++){
+    std::cout << "\t" << vecHistoName[ichip] << std::endl;
+  }
 
   gStyle->SetPalette(55); // Rainbow
  
@@ -84,13 +90,12 @@ void plot(const std::string base_file_name = "data-d0-2021_03_04__17_26_26__-204
      hplot[i]->GetName();
      hplot[i]->GetTitle();
  }
- 
 
   for(int i=0;i<nentries;i++){
     tree->GetEvent(i);
     Int_t nd = digArr->size();
     if(nd>0) {
-      std::cout << "\r >>>>> Entry " << i << "/" << nentries << " Events ? " << nd << " \r"<< std::cout.flush();
+      std::cout << ">>>>> Entry " << i+1 << "/" << nentries << " Events ? " << nd << "\r "<< std::flush;
     }
  
     while (nd--) {
@@ -103,7 +108,13 @@ void plot(const std::string base_file_name = "data-d0-2021_03_04__17_26_26__-204
       }
     }
   }
-    for(int k=0;k<sizeVecDec;k++){   //to have the plot
+  std::cout << "" << std::endl;
+  output_path += "/" + base_file_name;
+  std::string command = "mkdir -p " + output_path;
+  std::cout << command << std::endl;
+  gSystem->Exec(command.c_str());
+
+  for(int k=0;k<sizeVecDec;k++){   //to have the plot
     TString os2=vecHistoName[k];
     c1[k]= new TCanvas();
     c1[k]->SetName(os2);
@@ -113,16 +124,12 @@ void plot(const std::string base_file_name = "data-d0-2021_03_04__17_26_26__-204
     c1[k]->cd(k);
     gStyle->SetOptStat(0);
     hplot[k]->Draw("colz PMC");
-    output_path += "/" + base_file_name;
-    std::string command = "mkdir -p " + output_path;
-    std::cout << command << std::endl;
-    gSystem->Exec(command.c_str());
-    std::string histnamesave = output_path + "/hist_";
+    std::string histnamesave = output_path + "/";
     histnamesave += os2;
     histnamesave += ".pdf";
     const char *finalname =  histnamesave.c_str();
     c1[k]->SaveAs(finalname);
-
   }
+  std::cout << "---------------------------------------" << std::endl;
 }
 
