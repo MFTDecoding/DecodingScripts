@@ -50,24 +50,25 @@ rm -f $CFGFILE
 
 echo "Log in : " $log
 echo "Digits in : " $ROOTFILE
-echo "Error Jump in RDH_packetCounter :  " 
-grep -r "Jump in RDH_packetCounter" $log | wc -l
-
+echo
 echo "[ERROR]"
-grep -r "ERROR" $log | wc -l
+grep "ERROR" $log | wc -l
+
+echo "Error Jump in RDH_packetCounter :  " 
+grep "Jump in RDH_packetCounter" $log | wc -l
 
 echo "[ERROR] Failed to open input file"
-grep -r "Failed to open input file" $log | wc -l
+grep "Failed to open input file" $log | wc -l
 
 echo "[ERROR] Mismatch between flagged and calculated new TF start"
-grep -r "Mismatch between flagged and calculated new TF start" $log | wc -l
+grep "Mismatch between flagged and calculated new TF start" $log | wc -l
 
 echo "[ERROR] Unknown word"
-grep -r "Unknown word" $log | wc -l
+grep "Unknown word" $log | wc -l
 
 echo "[ERROR] SEVERE" 
-grep -r "SEVERE" $log | wc -l
-
+grep "SEVERE" $log | wc -l
+echo
 STOP_TIME=$(date +"%Y %m %d %H:%M:%S")
 echo "Stop " ${STOP_TIME}
 echo "Done !"
