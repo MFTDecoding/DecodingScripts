@@ -1,0 +1,10 @@
+dpl-config.json
+decode-noise-scan.sh
+decode-source-long-scan-low-intensity.sh
+decode-source-short-scan-high-intensity.sh
+decode-source-short-scan-low-intensity.sh
+MFTraw.cfg
+*.so 
+macro/*.so
+*_C.d
+macro/_C.d
