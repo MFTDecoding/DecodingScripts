@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
+#
 # Execute the scripts whose skeleton was created 
 # by create-decode-scripts-skeleton.sh
+#
 echo "***********************"
 echo "Decoding noise scan"
 echo "***********************"
