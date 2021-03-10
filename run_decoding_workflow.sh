@@ -4,7 +4,7 @@
 #   o2-raw-file-reader-workflow | o2-itsmft-stf-decoder-workflow | o2-itsmft-digit-writer-workflow
 # The script takes 3 arguments:
 # - the delay (float, in s) needed to delay o2-raw-file-reader-workflow
-#   between to packets sent to the other DPLs (because they are too slow
+#   between 2 packets sent to the other DPLs (because they are too slow
 #   w.r.t. the raw file reader)
 # - the absolute path of the input raw data file to be decoded
 # - the raw data filename without the .raw at the end
