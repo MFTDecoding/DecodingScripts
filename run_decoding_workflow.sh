@@ -64,28 +64,29 @@ grep "ERROR" ${log} | wc -l
 echo "Error Jump in RDH_packetCounter :  "
 grep "Jump in RDH_packetCounter" ${log} | wc -l
 
-echo "[ERROR] Failed to open input file" ; grep "Failed to open input file" ${log} | wc -l
+echo "[ERROR] Failed to open input file"
+grep "Failed to open input file" ${log} | wc -l
 
 echo "[ERROR] Mismatch between flagged and calculated new TF start"
 grep "Mismatch between flagged and calculated new TF start" ${log} | grep "ERROR" | wc -l
 
 echo "[ERROR] Unknown word"
-grep "Unknown word" ${log} | wc -l
+grep "Unknown word" ${log} | grep "ERROR" | wc -l
 
 echo "[ERROR] Wrong RDH.pageCnt increment"
 grep "Wrong RDH.pageCnt increment" ${log} | grep "ERROR" | wc -l
 
 echo "[ERROR] Unexpected RDH version"
-grep "Unexpected RDH version" ${log} | wc -l
+grep "Unexpected RDH version" ${log} | grep "ERROR" | wc -l
 
 echo "[ERROR] ahead of the reference"
-grep "is ahead of the reference" ${log} | wc -l
+grep "is ahead of the reference" ${log} | grep "ERROR" | wc -l
 
 echo "[ERROR] No SOX found"
 grep "No SOX found" ${log} | grep "ERROR" | wc -l
 
 echo "[ERROR] Number of TFs is less than expected"
-grep "Number of TFs is less than expected" ${log} | wc -l
+grep "Number of TFs is less than expected" ${log} | grep "ERROR" | wc -l
 
 grep "Unhandled std::exception" ${log}
 
