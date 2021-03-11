@@ -73,6 +73,20 @@ grep "Mismatch between flagged and calculated new TF start" ${log} | grep "ERROR
 echo "[ERROR] Unknown word"
 grep "Unknown word" ${log} | wc -l
 
+echo "[ERROR] Wrong RDH.pageCnt increment"
+grep "Wrong RDH.pageCnt increment" ${log} | wc -l
+
+echo "[ERROR] Unexpected RDH version"
+grep "Unexpected RDH version" ${log} | wc -l
+
+grep "Unhandled std::exception" ${log}
+
+grep "is ahead of the reference" ${log}
+
+grep "device shutting down" ${log}
+
+grep "No SOX found" ${log}
+
 echo "[ERROR] SEVERE" 
 grep "SEVERE" ${log} | wc -l
 echo
