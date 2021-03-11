@@ -7,7 +7,7 @@
 #   between 2 packets sent to the other DPLs (because they are too slow
 #   w.r.t. the raw file reader)
 # - the absolute path of the input raw data file to be decoded
-# - the raw data filename without the .raw at the end
+# - the input raw data base file name i.e. without the .raw at the end
 
 args=("$@")
 NUMBER_OF_ARGS=3
@@ -16,7 +16,7 @@ if [ $# -ne ${NUMBER_OF_ARGS} ]; then
     echo "Not enough args ! "
     echo "Mandatory: please give DELAY INPUT_PATH RAWDATA_FILENAME"
     echo "as in the example below :"
-    echo "./run_decoding_workflow.sh 0.1 /home/flp/data/h1/analog data-d0-2021_03_04__17_26_26__-20490-0"
+    echo "./run_decoding_workflow.sh 0.1 /home/flp/data/ data-2021_03_10__18_23_15__-20551-4"
     exit 1
 fi
 
