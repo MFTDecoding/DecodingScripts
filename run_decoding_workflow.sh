@@ -51,7 +51,7 @@ if [ "${HBF_PER_TF}" -eq "256" ]; then
     o2-raw-file-reader-workflow -b --delay ${DELAY_S} --nocheck-missing-stop --nocheck-starts-with-tf --nocheck-packet-increment --nocheck-hbf-jump --nocheck-hbf-per-tf --detect-tf0 --input-conf ${CFGFILE} | o2-itsmft-stf-decoder-workflow -b --nthreads ${N_THREAD} --runmft --digits --writeHW --no-clusters --no-cluster-patterns --decoder-verbosity ${DECODER_VERBOSITY} | o2-itsmft-digit-writer-workflow -b --runmft --writeHW --disable-mc --outfile ${ROOTFILE} > ${log}
 else
     echo "Using HBFUtils.nHBFPerTF = "${HBF_PER_TF}
-    o2-raw-file-reader-workflow -b --delay ${DELAY_S} --nocheck-missing-stop --nocheck-starts-with-tf --nocheck-packet-increment --nocheck-hbf-jump --nocheck-hbf-per-tf --detect-tf0 --configKeyValues "HBFUtils.nHBFPerTF=${HBF_PER_TF}" --input-conf ${CFGFILE} | o2-itsmft-stf-decoder-workflow -b --nthreads ${N_THREAD} --runmft --digits --writeHW --no-clusters --no-cluster-patterns --decoder-verbosity ${DECODER_VERBOSITY} | o2-itsmft-digit-writer-workflow -b --runmft --writeHW --disable-mc --outfile ${ROOTFILE}.root > ${log}
+    o2-raw-file-reader-workflow -b --delay ${DELAY_S} --nocheck-missing-stop --nocheck-starts-with-tf --nocheck-packet-increment --nocheck-hbf-jump --nocheck-hbf-per-tf --detect-tf0 --configKeyValues "HBFUtils.nHBFPerTF=${HBF_PER_TF}" --input-conf ${CFGFILE} | o2-itsmft-stf-decoder-workflow -b --nthreads ${N_THREAD} --runmft --digits --writeHW --no-clusters --no-cluster-patterns --decoder-verbosity ${DECODER_VERBOSITY} | o2-itsmft-digit-writer-workflow -b --runmft --writeHW --disable-mc --outfile ${ROOTFILE} > ${log}
 fi
 rm -f ${CFGFILE}
 
