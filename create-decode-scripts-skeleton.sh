@@ -7,8 +7,8 @@
 #   via decode-flp.sh
 # Edit the skeleton script to make them run (remowe
 #   .raw at the end of each file name)
-ls -1 data-2021_03_10__16_59_27__-20* | awk '{print "./run_decoding_workflow.sh 0.05 /home/flp/data " $1}' > ~/alice/decoding-scripts/decode-noise-scan.sh
-ls -1 data-2021_03_10__17_38_49__-20* | awk '{print "./run_decoding_workflow.sh 0.1 /home/flp/data " $1}' > ~/alice/decoding-scripts/decode-source-short-scan-low-intensity.sh
-ls -1 data-2021_03_10__18_03_41__-20* | awk '{print "./run_decoding_workflow.sh 0.1 /home/flp/data " $1}' > ~/alice/decoding-scripts/decode-source-long-scan-low-intensity.sh
-ls -1 data-2021_03_10__18_23_15__-20* | awk '{print "./run_decoding_workflow.sh 0.1 /home/flp/data " $1}' > ~/alice/decoding-scripts/decode-source-short-scan-high-intensity.sh
+ls -1 data-2021_03_10__16_59_27__-20* | awk '{print "./run_decoding_workflow.sh 0.001 /home/flp/data 128 " $1}' > ~/alice/decoding-scripts/decode-noise-scan.sh
+ls -1 data-2021_03_10__17_38_49__-20* | awk '{print "./run_decoding_workflow.sh 0.01 /home/flp/data 128 " $1}' > ~/alice/decoding-scripts/decode-source-short-scan-low-intensity.sh
+ls -1 data-2021_03_10__18_03_41__-20* | awk '{print "./run_decoding_workflow.sh 0.01 /home/flp/data 128 " $1}' > ~/alice/decoding-scripts/decode-source-long-scan-low-intensity.sh
+ls -1 data-2021_03_10__18_23_15__-20* | awk '{print "./run_decoding_workflow.sh 0.01 /home/flp/data 128 " $1}' > ~/alice/decoding-scripts/decode-source-short-scan-high-intensity.sh
 chmod u+x ~/alice/decoding-scripts/*.sh
