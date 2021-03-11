@@ -79,13 +79,15 @@ grep "Wrong RDH.pageCnt increment" ${log} | wc -l
 echo "[ERROR] Unexpected RDH version"
 grep "Unexpected RDH version" ${log} | wc -l
 
+echo "[ERROR] ahead of the reference"
+grep "is ahead of the reference" ${log} | wc -l
+
+echo "[ERROR] No SOX found"
+grep "No SOX found" ${log} | grep "ERROR" | wc -l
+
 grep "Unhandled std::exception" ${log}
 
-grep "is ahead of the reference" ${log}
-
 grep "device shutting down" ${log}
-
-grep "No SOX found" ${log}
 
 echo "[ERROR] SEVERE" 
 grep "SEVERE" ${log} | wc -l
