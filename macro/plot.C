@@ -95,7 +95,11 @@ void plot(const std::string base_file_name = "data-d0-2021_03_04__17_26_26__-204
     tree->GetEvent(i);
     Int_t nd = digArr->size();
     if(nd>0) {
-      std::cout << ">>>>> Entry " << i+1 << "/" << nentries << " Events ? " << nd << "\r "<< std::flush;
+      if (gROOT->IsBatch()) {
+        std::cout << ">>>>> Entry " << i+1 << "/" << nentries << " Events ? " << nd << std::endl;
+      } else {
+        std::cout << ">>>>> Entry " << i+1 << "/" << nentries << " Events ? " << nd << "\r "<< std::flush;
+      }
     }
  
     while (nd--) {
