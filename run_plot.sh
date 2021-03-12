@@ -31,9 +31,10 @@ fi
 
 echo "-----------------------------"
 START_TIME=$(date +"%Y/%m/%d %H:%M:%S")
+echo "Start "${START_TIME}
 
 timestamp=$(date +"%Y_%m_%d_%H_%M_%S")
-log=${PATHLOG}/plotter-${RAWDATA_FILENAME}-$timestamp.out
+log=${PATHLOG}/plotter-${DIGIT_FILENAME}-$timestamp.out
 
 root -l -b -q macro/plot.C\(\"${DIGIT_FILENAME}\",\"${INPUT_PATH}\",\"${OUTPUT_PATH}\"\) > $log
 
