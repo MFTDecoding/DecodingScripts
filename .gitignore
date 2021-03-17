@@ -3,10 +3,14 @@ decode-noise-scan.sh
 decode-source-long-scan-low-intensity.sh
 decode-source-short-scan-high-intensity.sh
 decode-source-short-scan-low-intensity.sh
+decode-source-long-scan-nobb.sh
+decode-source-long-scan-wbb.sh
 plot-noise-scan.sh
 plot-source-long-scan-low-intensity.sh
 plot-source-short-scan-high-intensity.sh
 plot-source-short-scan-low-intensity.sh
+plot-source-long-scan-nobb.sh
+plot-source-long-scan-wbb.sh
 MFTraw.cfg
 *.so 
 macro/*.so

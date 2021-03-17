@@ -9,17 +9,27 @@ echo "***********************"
 ./decode-noise-scan.sh
 echo
 echo "**********************************************"
-echo "Decoding source short scan with low intensity"
+echo "Decoding source long scan without back-bias"
 echo "**********************************************"
-./decode-source-short-scan-low-intensity.sh
+./decode-source-long-scan-nobb.sh
 echo
 echo "**********************************************"
-echo "Decoding source long scan with low intensity"
+echo "Decoding source long scan with back-bias"
 echo "**********************************************"
-./decode-source-long-scan-low-intensity.sh
-echo
-echo "**********************************************"
-echo "Decoding source short scan with high intensity"
-echo "**********************************************"
-./decode-source-short-scan-high-intensity.sh
+./decode-source-long-scan-wbb.sh
+# echo
+# echo "**********************************************"
+# echo "Decoding source short scan with low intensity"
+# echo "**********************************************"
+# ./decode-source-short-scan-low-intensity.sh
+# echo
+# echo "**********************************************"
+# echo "Decoding source long scan with low intensity"
+# echo "**********************************************"
+# ./decode-source-long-scan-low-intensity.sh
+# echo
+# echo "**********************************************"
+# echo "Decoding source short scan with high intensity"
+# echo "**********************************************"
+# ./decode-source-short-scan-high-intensity.sh
 echo
