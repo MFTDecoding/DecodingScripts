@@ -1,27 +1,53 @@
-#!/bin/bash
-echo "Decoding raw data files"
-RAWDATANAME=$1 ######example: h0/thr/data-d1-f0-charge5-ninj50-2020_09_17__18_14_52__-0.raw
-DATARAW=$(echo $RAWDATANAME | sed 's/.*-\([0-9_]\+\)__-.*/\1/g') ####extraction of raw data timestamp
-FOLDER=$(echo $RAWDATANAME | sed 's/\([a-z0-9/]\+\)data-.*/\1/g') #######extraction folder example: h0/thr
-LOG=$(echo $RAWDATANAME | sed 's/.*data-\([a-z0-9_-]\+\)/\1/g') #####log file name
-DISK=$(echo $RAWDATANAME | sed 's/.*data-\([a-z0-9_-]\+\)-f.*/\1/g')
-PATHROOT=/home/alice/alice/output
-PATHLOG=/home/alice/alice/output/log
-current_time=$(date "+%Y_%m_%d__%H_%M_%S")
-starttime=$(date +"%H.%M.%S,%3N")
-echo "-----------------------------------"
-echo "Mapping at $starttime"
-root.exe -l -b -q macro/mapping_mft.C+ | tee $PATHLOG/mapping\_$current_time\_$LOG.out
-echo "Let's analyse digits : $current_time"
-echo "-----------------------------------"
-root -l -b -q macro/PlotRawDec.C\(\"$PATHROOT/$RAWDATANAME.root\",\"$DATARAW\",\"$current_time\"\)
-PATHPLOT=/home/alice/alice/O2/Plots/
-if [ ! -d "$PATHPLOT$FOLDER$DISK" ]; then
-    echo "Directory $PATHPLOT$FOLDER$DISK DOES NOT exists. Creation of folder ongoing!"
-    mkdir -p $PATHPLOT$FOLDER$DISK
+#!/usr/bin/env bash
+
+# Run this script to make 2D histo plots with the coordinates (row, col)
+#   of the hit pixels read from the digits. It will produce one plot
+#   per sensor found in the data.
+# The script takes 3 arguments:
+# - the input digit base file name i.e. without the .root at the end 
+# - the absolute path of the input digit file
+# - the absolute path of the output PDF plots (one per sensor 
+#   found in the data) 
+
+args=("$@")
+NUMBER_OF_ARGS=3
+
+if [ $# -ne ${NUMBER_OF_ARGS} ]; then
+    echo "Not enough args ! "
+    echo "Mandatory: please give DIGIT_FILENAME INPUT_PATH OUTPUT_PATH"
+    echo "as in the example below :"
+    echo "./run_plot.sh data-2021_03_10__18_23_15__-20551-4 /home/flp/data/digits /home/flp/plots"
+    exit 1
 fi
-set -e
-mv $PATHPLOT/*.pdf $PATHPLOT$FOLDER$DISK/.
-finishtime=$(date +"%H.%M.%S,%3N")
-echo "-----------------------------------"
-echo "Done at time $finishtime"
+
+DIGIT_FILENAME=${args[0]}
+INPUT_PATH=${args[1]}
+OUTPUT_PATH=${args[2]}
+
+PATHLOG=${OUTPUT_PATH}/log
+if [ ! -d "${PATHLOG}" ]; then
+    mkdir -p ${PATHLOG}
+fi
+
+echo "-----------------------------"
+START_TIME=$(date +"%Y/%m/%d %H:%M:%S")
+echo "Start "${START_TIME}
+
+timestamp=$(date +"%Y_%m_%d_%H_%M_%S")
+log=${PATHLOG}/plotter-${DIGIT_FILENAME}-$timestamp.out
+
+root -l -b -q macro/plot.C\(\"${DIGIT_FILENAME}\",\"${INPUT_PATH}\",\"${OUTPUT_PATH}\"\) > $log
+
+echo "Log in : " $log
+echo "Plots in : " 
+ls -1 ${OUTPUT_PATH}/${DIGIT_FILENAME}/*.pdf
+echo
+
+echo "ERROR opening digit file : "
+grep "ERROR opening digit file" $log | wc -l
+echo
+
+STOP_TIME=$(date +"%Y %m %d %H:%M:%S")
+echo "Stop " ${STOP_TIME}
+echo "Done !"
+echo "-----------------------------"

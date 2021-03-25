@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <math.h>
 #include "TROOT.h"
+#include "TSystem.h"
 #include "TFile.h"
 #include "TTree.h"
 #include "TBrowser.h"
@@ -8,20 +9,31 @@
 #include "TRandom.h"
 #include "TCanvas.h"
 #include "TGraph.h"
+#include "TH2F.h"
+#include <iostream>
 #include <sstream>
 #include <vector>
 #include <fstream>
 #include <string>
 
-
+using namespace std;
 using namespace o2::base;
 using namespace o2::detectors;
 using o2::itsmft::DigitHW;
 
-void plot(const Char_t *inFile="/local/home/mc262512/alice/output/data-d0-2021_03_04__17_26_26__-20490-3.raw.root"){
+void plot(const std::string base_file_name = "data-d0-2021_03_04__17_26_26__-20490-3", 
+  const std::string input_path = "/home/flp/data/digits",
+  std::string output_path = "/home/flp/plots")
+{
+  std::cout << "---------------------------------------" << std::endl;
+  std::string input_file_name = input_path + "/" + base_file_name + ".root";
 
-  TFile *inputFile =new TFile(inFile);
-
+  TFile *inputFile =new TFile(input_file_name.c_str());
+  if ( inputFile->IsZombie() ) {
+		std::cout << "ERROR opening digit file " << input_file_name << " ! exit" << std::endl;
+		return;
+  }
+  std::cout << "digit file " << input_file_name <<" opened" << std::endl;
 
   TTree *tree=(TTree*)inputFile->Get("o2sim");
   auto nentries=tree->GetEntries();
@@ -47,7 +59,7 @@ void plot(const Char_t *inFile="/local/home/mc262512/alice/output/data-d0-2021_0
      Int_t disk = d->getDisk();
      Int_t zone = d->getZone();
      if(find (vecChipDec.begin(), vecChipDec.end(), chipID)==vecChipDec.end()){
-  	     os<<"h" << half<<"-d"<<disk<<"-f"<<face<<"-z"<<zone<<"-trans"<<cableHW;
+  	     os<<"h" << half<<"-d"<<disk<<"-f"<<face<<"-z"<<zone<<"-tr"<<cableHW;
 	     os1 = os.str();
 	     os.str("");
 	     os.clear();
@@ -59,6 +71,9 @@ void plot(const Char_t *inFile="/local/home/mc262512/alice/output/data-d0-2021_0
 
   int sizeVecDec = vecChipDec.size();
   std::cout<<"How many chips? "<<sizeVecDec<<std::endl;
+  for(int ichip = 0; ichip<sizeVecDec; ichip++){
+    std::cout << "\t" << vecHistoName[ichip] << std::endl;
+  }
 
   gStyle->SetPalette(55); // Rainbow
  
@@ -75,12 +90,17 @@ void plot(const Char_t *inFile="/local/home/mc262512/alice/output/data-d0-2021_0
      hplot[i]->GetName();
      hplot[i]->GetTitle();
  }
- 
 
   for(int i=0;i<nentries;i++){
     tree->GetEvent(i);
     Int_t nd = digArr->size();
-    cout<<"Events? "<<nd<<endl;
+    if(nd>0) {
+      if (gROOT->IsBatch()) {
+        std::cout << ">>>>> Entry " << i+1 << "/" << nentries << " Events ? " << nd << std::endl;
+      } else {
+        std::cout << ">>>>> Entry " << i+1 << "/" << nentries << " Events ? " << nd << "\r "<< std::flush;
+      }
+    }
  
     while (nd--) {
       const DigitHW* d2 = &(*digArr)[nd];
@@ -92,7 +112,13 @@ void plot(const Char_t *inFile="/local/home/mc262512/alice/output/data-d0-2021_0
       }
     }
   }
-    for(int k=0;k<sizeVecDec;k++){   //to have the plot
+  std::cout << "" << std::endl;
+  output_path += "/" + base_file_name;
+  std::string command = "mkdir -p " + output_path;
+  std::cout << command << std::endl;
+  gSystem->Exec(command.c_str());
+
+  for(int k=0;k<sizeVecDec;k++){   //to have the plot
     TString os2=vecHistoName[k];
     c1[k]= new TCanvas();
     c1[k]->SetName(os2);
@@ -102,12 +128,12 @@ void plot(const Char_t *inFile="/local/home/mc262512/alice/output/data-d0-2021_0
     c1[k]->cd(k);
     gStyle->SetOptStat(0);
     hplot[k]->Draw("colz PMC");
-    std::string histnamesave = "analog/hist_";
-    histnamesave +=os2;
+    std::string histnamesave = output_path + "/";
+    histnamesave += os2;
     histnamesave += ".pdf";
     const char *finalname =  histnamesave.c_str();
     c1[k]->SaveAs(finalname);
-
   }
+  std::cout << "---------------------------------------" << std::endl;
 }
 
