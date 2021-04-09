@@ -1,4 +1,5 @@
 dpl-config.json
+decode-mc-hit-pattern.sh
 decode-noise-scan.sh
 decode-source-long-scan-low-intensity.sh
 decode-source-short-scan-high-intensity.sh
