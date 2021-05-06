@@ -9,7 +9,8 @@
 # Edit the skeleton script to make them run (remove
 #   .raw or .tf at the end of each file name)
 
-ls -1 2021-04-01*.tf | awk '{print "./run_decoding_workflow.sh 0.001 0 /home/mft/data/mw3/63 256 " $1}' > ~/alice/decoding-scripts/decode-mc-hit-pattern.sh
+ls -1 2021-05-03*.tf | awk '{print "./run_decoding_workflow.sh 0.001 0 /home/mft/data/mw4/151 256 " $1}' > ~/alice/decoding-scripts/decode-mc-hit-pattern.sh
+#ls -1 2021-04-01*.tf | awk '{print "./run_decoding_workflow.sh 0.001 0 /home/mft/data/mw3/63 256 " $1}' > ~/alice/decoding-scripts/decode-mc-hit-pattern.sh
 #ls -1 data-2021_03_12__16_24_08__-20* | awk '{print "./run_decoding_workflow.sh 0.001 /home/mft/data 128 " $1}' > ~/alice/decoding-scripts/decode-noise-scan.sh
 #ls -1 data-2021_03_12__18_28_10__-20* | awk '{print "./run_decoding_workflow.sh 0.01 /home/mft/data 128 " $1}' > ~/alice/decoding-scripts/decode-source-long-scan-nobb.sh
 #ls -1 data-2021_03_12__19_29_35__-20* | awk '{print "./run_decoding_workflow.sh 0.01 /home/mft/data 128 " $1}' > ~/alice/decoding-scripts/decode-source-long-scan-wbb.sh
