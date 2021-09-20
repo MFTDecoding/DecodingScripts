@@ -91,7 +91,7 @@ int AddressToRow         (int disk, int tr, int zone, int col, int row)
 }
 
 
-void NoisePlotDisk(long timestamp=-1){
+void NoisePlotDisk(long timestamp=-1, float thresh=0){
 
 	const o2::itsmft::ChipMappingMFT maping;
 	auto chipMap = maping.getChipMappingData();
@@ -111,7 +111,7 @@ void NoisePlotDisk(long timestamp=-1){
 		for (int row=0; row<512; row++){
 			for (int col=0; col<1024; col++){
 				int lvl = calib->getNoiseLevel(id, row, col);
-				if (lvl){
+				if (lvl > thresh*calib->getNumOfStrobes()){
 				     Int_t tr = chipMap[id].cable;
 				     Int_t half = chipMap[id].half;
 				     Int_t layer = chipMap[id].layer;

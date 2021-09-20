@@ -91,7 +91,7 @@ int AddressToRow         (int disk, int tr, int zone, int col, int row)
 }
 
 
-void DiffNoise(long timestamp_new = 1625066988580, long timestamp_old = 1625065852000){
+void DiffNoise(long timestamp_new = 1625066988580, long timestamp_old = 1625065852000, float thresh=0){
 
 	const o2::itsmft::ChipMappingMFT maping;
 	auto chipMap = maping.getChipMappingData();
@@ -122,17 +122,17 @@ void DiffNoise(long timestamp_new = 1625066988580, long timestamp_old = 16250658
 				Int_t disk = chipMap[id].disk;
 				Int_t zone = chipMap[id].zone;
 
-				if (!lvl && lvlold){
+				if (lvl < thresh*calib->getNumOfStrobes() && lvlold > thresh*calib->getNumOfStrobes()){
 //				    cout << "Noisy Pixel diseappeared : h" << half << "-d" << disk << "-f" << face << "-z" << zone << "-tr" << tr << ", row : " << row << " col : " << col << endl;
 				     DispPix.push_back({half, disk, face, zone, tr, row, col, lvlold});
 
 				}
-				if (lvl && !lvlold){
+				if (lvl > thresh*calib->getNumOfStrobes() && lvlold < thresh*calib->getNumOfStrobes()){
 //				     cout << "New Noisy Pixel : h" << half << "-d" << disk << "-f" << face << "-z" << zone << "-tr" << tr << ", row : " << row << " col : " << col << endl;
 				     vecChip.push_back({half, disk, face, zone, tr, row, col, lvl});
 				     empty=false;
 				}
-				if (lvl)
+				if (lvl > thresh*calib->getNumOfStrobes())
 					tot_noise_count++;
 
 			}
