@@ -101,8 +101,9 @@ void NoisePlotDisk(long timestamp=-1, float thresh=0){
 	map<string, string> headers;
 	map<std::string, std::string> filter;
 	auto calib = api.retrieveFromTFileAny<o2::itsmft::NoiseMap>("MFT/Calib/NoiseMap/", filter , timestamp, &headers );
-	float thresh = 0;
-//	calib->dumpAboveThreshold(thresh);
+	int nbStrobes = calib->getNumOfStrobes();
+        calib->applyProbThreshold(thresh, nbStrobes);
+
 	vector<int> vecNoise;
 	vector<Chip> vecChip;
 	int nb_chips=0;

@@ -102,7 +102,12 @@ void DiffNoise(long timestamp_new = 1625066988580, long timestamp_old = 16250658
 	map<std::string, std::string> filter;
 	auto calib = api.retrieveFromTFileAny<o2::itsmft::NoiseMap>("MFT/Calib/NoiseMap/", filter , timestamp_new, &headers );
 	auto calibold = api.retrieveFromTFileAny<o2::itsmft::NoiseMap>("MFT/Calib/NoiseMap/", filter , timestamp_old, &headers );
-	float thresh = 0;
+	int nbStrobes = calib->getNumOfStrobes();
+	int nbStrobesOld = calibold->getNumOfStrobes();
+        calib->applyProbThreshold(thresh, nbStrobes);
+        calibold->applyProbThreshold(thresh, nbStrobesOld);
+
+//	float thresh = 0;
 	vector<Chip> DispPix;
 	vector<int> vecNoise;
 	vector<Chip> vecChip;
@@ -122,17 +127,17 @@ void DiffNoise(long timestamp_new = 1625066988580, long timestamp_old = 16250658
 				Int_t disk = chipMap[id].disk;
 				Int_t zone = chipMap[id].zone;
 
-				if (lvl < thresh*calib->getNumOfStrobes() && lvlold > thresh*calib->getNumOfStrobes()){
+				if (!lvl && lvlold ){
 //				    cout << "Noisy Pixel diseappeared : h" << half << "-d" << disk << "-f" << face << "-z" << zone << "-tr" << tr << ", row : " << row << " col : " << col << endl;
 				     DispPix.push_back({half, disk, face, zone, tr, row, col, lvlold});
 
 				}
-				if (lvl > thresh*calib->getNumOfStrobes() && lvlold < thresh*calib->getNumOfStrobes()){
+				if (lvl && !lvlold){
 //				     cout << "New Noisy Pixel : h" << half << "-d" << disk << "-f" << face << "-z" << zone << "-tr" << tr << ", row : " << row << " col : " << col << endl;
 				     vecChip.push_back({half, disk, face, zone, tr, row, col, lvl});
 				     empty=false;
 				}
-				if (lvl > thresh*calib->getNumOfStrobes())
+				if (lvl)
 					tot_noise_count++;
 
 			}
