@@ -82,11 +82,11 @@ void sortNoiseMap(long timestamp=-1){
 	cout << nb_pixels << endl;
 
 	std::ofstream OutStream; 
-	OutStream.open("noiseMap_sorted.dat");
-	OutStream << "half \t disk \t face \t zone \t tr \t row \t col "<< endl; 
+	OutStream.open("noiseMap_sorted.csv");
+	OutStream << "half,disk,face,zone,tr,row,col,nhits"<< endl; 
 	
   for (int i=0; i<nb_pixels; i++){
-	  OutStream << vecChip[i].half << "\t" << vecChip[i].disk << "\t" << vecChip[i].face << "\t" << vecChip[i].zone << "\t" << vecChip[i].tr << "\t" << vecChip[i].row << "\t" << vecChip[i].col << "\t" << vecChip[i].noise << endl; 
+	  OutStream << vecChip[i].half << "," << vecChip[i].disk << "," << vecChip[i].face << "," << vecChip[i].zone << "," << vecChip[i].tr << "," << vecChip[i].row << "," << vecChip[i].col << "," << vecChip[i].noise << endl; 
   }
 	OutStream.close();
 
