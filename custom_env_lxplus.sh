@@ -1,24 +1,10 @@
 #!/usr/bin/env bash
 
-function go_o2_pdp() {
-    # enter O2 PDP suite environment
-    /cvmfs/alice.cern.ch/bin/alienv enter VO_ALICE@O2PDPSuite::nightly-20211026-1
-}
-export -f go_o2_pdp
-
-function go_o2_physics() {
-    # enter O2 Physics suite environment
-    /cvmfs/alice.cern.ch/bin/alienv enter VO_ALICE@O2Physics::nightly-20211026-1
-}
-export -f go_o2_physics
-
-
-function go_eos() {
-    # needed to be able to acces EOS files
-    export XrdSecPROTOCOL=sss,unix
-    export XrdSecSSSKT=~/.alimftvs.sss.keys
-}
-export -f go_eos
+# make sure that you are using O2 from CVMFS
+# via for e.g. 
+# > /cvmfs/alice.cern.ch/bin/alienv enter VO_ALICE@O2PDPSuite::nightly-20211026-1
+# or 
+# > /cvmfs/alice.cern.ch/bin/alienv enter VO_ALICE@O2Physics::nightly-20211026-1
 
 function groupfiles () {
     # create a subgroup of files for reco
