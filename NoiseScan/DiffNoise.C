@@ -97,7 +97,7 @@ void DiffNoise(long timestamp_new = 1625066988580, long timestamp_old = 16250658
 	auto chipMap = maping.getChipMappingData();
 
 	o2::ccdb::CcdbApi api;
-	api.init("ccdb-test.cern.ch:8080");
+	api.init("http://alice-ccdb.cern.ch");
 	map<string, string> headers;
 	map<std::string, std::string> filter;
 	auto calib = api.retrieveFromTFileAny<o2::itsmft::NoiseMap>("MFT/Calib/NoiseMap/", filter , timestamp_new, &headers );
