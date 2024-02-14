@@ -1,6 +1,6 @@
 void plotCCDB(){
 	o2::ccdb::CcdbApi api;
-	api.init("ccdb-test.cern.ch:8080");
+	api.init("http://alice-ccdb.cern.ch");
 	map<string, string> headers;
 	map<std::string, std::string> filter;
 	auto calib = api.retrieveFromTFileAny<o2::itsmft::NoiseMap>("MFT/Calib/NoiseMap/", filter , -1, &headers );
